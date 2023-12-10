@@ -19,38 +19,27 @@ def display_ui():
     # Chat box and history
     chat_history = []
 
-    prompt = st.text_area("Type your message here...", key="input_box")
-    if st.button("SEND", key="send_button"):
-        # Choose the PaLM model you want to use
-        models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
-        if models:
-            model = models[0].name  # Adjust this based on your preference
-
-            # Optionally, provide a context for the conversation
-            context = "You are an expert at solving word problems."  # Adjust as needed
-
-            # Retry the chat and store the conversation history
-            response = retry_chat(
-                model=model,
-                context=context,
-                messages=chat_history + [prompt],
-            )
-
-            if response:
-                generated_text = response.last.text
-                chat_history.append(generated_text)
-
-    st.write("Chat History:")
-    for message in chat_history:
-        st.write(message)
-
-    st.write("")
-    st.header(":blue[Response]")
-    st.write("")
-
-    if chat_history:
-        st.markdown(chat_history[-1], unsafe_allow_html=False, help=None)
-
+    defaults = {
+  'model': 'models/chat-bison-001',
+  'temperature': 0.4,
+  'candidate_count': 1,
+  'top_k': 40,
+  'top_p': 0.95,
+}
+context = ""
+examples = []
+messages = [
+  "what's up",
+  "Hey! I'm doing well, thanks for asking. How are you doing today?"
+]
+messages.append("NEXT REQUEST")
+response = palm.chat(
+  **defaults,
+  context=context,
+  examples=examples,
+  messages=messages
+)
+print(response.last) # Response of the AI to your most recent request
 
 if __name__ == "__main__":
     display_ui()
