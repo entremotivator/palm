@@ -1,16 +1,14 @@
 import streamlit as st
 import os
-import google.generativeai as palm
-
+import requests  # Import the requests library for HTTP requests
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
+
+# Configure PaLM with the API key
 palm.configure(api_key=API_KEY)
 
-
-    }
-    response = requests.post 
-    def generate_text_with_curl(prompt):
+def generate_text_with_curl(prompt):
     url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
     headers = {'Content-Type': 'application/json'}
     params = {'key': API_KEY}
@@ -22,13 +20,17 @@ palm.configure(api_key=API_KEY)
     response = requests.post(url, headers=headers, params=params, json=data)
     return response.json()
 
+def get_model_info():
+    # Replace this with your actual code to retrieve model information
+    return "Model Information Placeholder"
+
 def main():
     st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
     st.header("Chat with PaLM")
     st.write("")
 
     prompt = st.text_input("Prompt please...", placeholder="Prompt", label_visibility="visible")
-    temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    # Hyper parameter - range[0-1]
+    temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    # Hyperparameter - range[0-1]
 
     if st.button("SEND", use_container_width=True):
         # Use the cURL-like request
