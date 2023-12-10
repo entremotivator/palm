@@ -15,30 +15,42 @@ def retry_chat(**kwargs):
 
 def display_ui():
     st.header("Chat with PaLM")
+
+    # Chat box and history
+    chat_history = []
+
+    prompt = st.text_area("Type your message here...", key="input_box")
+    if st.button("SEND", key="send_button"):
+        # Choose the PaLM model you want to use
+        models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
+        if models:
+            model = models[0].name  # Adjust this based on your preference
+
+            # Optionally, provide a context for the conversation
+            context = "You are an expert at solving word problems."  # Adjust as needed
+
+            # Retry the chat and store the conversation history
+            response = retry_chat(
+                model=model,
+                context=context,
+                messages=chat_history + [prompt],
+            )
+
+            if response:
+                generated_text = response.last.text
+                chat_history.append(generated_text)
+
+    st.write("Chat History:")
+    for message in chat_history:
+        st.write(message)
+
+    st.write("")
+    st.header(":blue[Response]")
     st.write("")
 
-    def generate_and_display_response(prompt, model, context=""):
-        response = retry_chat(
-            model=model,
-            context=context,
-            messages=[prompt],
-        )
-
-        st.write("")
-        st.header(":blue[Response]")
-        st.write("")
-
-        if response:
-            generated_text = response.last.text
-            formatted_text = format_generated_text(generated_text)
-            st.markdown(formatted_text, unsafe_allow_html=False, help=None)
-
-    def format_generated_text(generated_text):
-        # Add any formatting or post-processing here
-        formatted_text = generated_text.capitalize()  # Example: Capitalize the text
-        return formatted_text
+    if chat_history:
+        st.markdown(chat_history[-1], unsafe_allow_html=False, help=None)
 
 
 if __name__ == "__main__":
     display_ui()
-
