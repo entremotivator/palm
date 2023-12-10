@@ -1,16 +1,15 @@
-import streamlit as st
-from google.generativeai import palm  # Add this line
-import subprocess
-import json
-import os
+def run_curl_command(prompt):
+    curl_command = [
+        "curl",
+        "-H", "Content-Type: application/json",
+        "-H", f"x-goog-api-key: {st.secrets['curl_command_key']}",
+        "-d", f'{{"prompt": {{"text": "{prompt}"}}}}',
+        "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
+    ]
+    result = subprocess.run(curl_command, capture_output=True, text=True)
+    return result.stdout
 
-# Retrieve PaLM API key from Streamlit secrets
-API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
-palm.configure(api_key=API_KEY)
-
-# Store PaLM API key for curl command in Streamlit secrets
-st.secrets["curl_command_key"] = API_KEY
-
+def main():
     st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
     st.header("Chat with PaLM")
     st.write("")
@@ -42,3 +41,4 @@ st.secrets["curl_command_key"] = API_KEY
 
 if __name__ == "__main__":
     main()
+    
