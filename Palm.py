@@ -3,17 +3,18 @@ import subprocess
 import json
 import os
 
-# Load environment variables from
-
-# Retrieve PaLM API key from environment variables or st.secrets
+# Retrieve PaLM API key from Streamlit secrets
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
 palm.configure(api_key=API_KEY)
+
+# Store PaLM API key for curl command in Streamlit secrets
+st.secrets["curl_command_key"] = API_KEY
 
 def run_curl_command(prompt):
     curl_command = [
         "curl",
         "-H", "Content-Type: application/json",
-        "-H", f"x-goog-api-key: {API_KEY}",
+        "-H", f"x-goog-api-key: {st.secrets['curl_command_key']}",
         "-d", f'{{"prompt": {{"text": "{prompt}"}}}}',
         "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
     ]
