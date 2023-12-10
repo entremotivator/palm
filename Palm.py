@@ -43,7 +43,15 @@ def generate_and_display_response(prompt):
     st.header(":blue[Response]")
     st.write("")
 
-    st.markdown(response.get("text", ""), unsafe_allow_html=False, help=None)
+    if response:
+        generated_text = response.get("text", "")
+        formatted_text = format_generated_text(generated_text)
+        st.markdown(formatted_text, unsafe_allow_html=False, help=None)
+
+def format_generated_text(generated_text):
+    # Add any formatting or post-processing here
+    formatted_text = generated_text.capitalize()  # Example: Capitalize the text
+    return formatted_text
 
 def main():
     configure_palm()
