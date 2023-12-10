@@ -11,15 +11,6 @@ HEADERS = {'Content-Type': 'application/json'}
 IMAGE_PATH = "./Google_PaLM_Logo.svg.webp"
 
 
-# Access individual secrets
-project_id = secrets["credentials"]["project_id"]
-client_email = secrets["credentials"]["client"]["email"]
-
-# Streamlit app content
-st.title("Google Cloud Service Account Secrets Example")
-st.write(f"Project ID: {project_id}")
-st.write(f"Client Email: {client_email}")
-
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key")
