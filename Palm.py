@@ -50,22 +50,16 @@ def display_ui():
     if st.button("SEND", use_container_width=True):
         generate_and_display_response(prompt)
 
-def generate_and_display_response(prompt):
-    response = generate_text_with_palm(prompt)
+models = [m for m in palm.list_models() if 'generateMessage' in m.supported_generation_methods]
+model = models[0].name
+print(model)
+response = retry_chat(
+    model=model,
+    context="You are an expert at solving word problems.",
+    messages=question,
+)
 
-    st.write("")
-    st.header(":blue[Response]")
-    st.write("")
-
-    if response:
-        generated_text = response.get("text", "")
-        formatted_text = format_generated_text(generated_text)
-        st.markdown(formatted_text, unsafe_allow_html=False, help=None)
-
-def format_generated_text(generated_text):
-    # Add any formatting or post-processing here
-    formatted_text = generated_text.capitalize()  # Example: Capitalize the text
-    return formatted_text
+print(response.last)
 
 def main():
     configure_palm()
