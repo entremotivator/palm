@@ -5,40 +5,29 @@ import google.generativeai as palm
 API_KEY = st.secrets["palm_api_key"]
 palm.configure(api_key=API_KEY)
 
-def chat_with_palm(messages):
-    defaults = {
-        'model': 'models/chat-bison-001',
-        'temperature': 0.4,
-        'candidate_count': 1,
-        'top_k': 40,
-        'top_p': 0.95,
-    }
-    context = ""
-    examples = []
-    messages.append("NEXT REQUEST")
+ef main():
+    st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
+    st.header("Chat with PaLM")
+    st.write("")
 
-    # Use palm.chat function to interact with the PaLM model
-    response = palm.chat(
-        **defaults,
-        context=context,
-        examples=examples,
-        messages=messages
-    )
+    prompt = st.text_input("Prompt please...", placeholder="Prompt", label_visibility="visible")
+    temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    #Hyper parameter - range[0-1]
 
-    return response.last
+    if st.button("SEND", use_container_width=True):
+        model = "models/text-bison-001"    #This is the only model currently available
 
-def display_ui():
-    st.title("Chat with PaLM")
+        response = palm.generate_text(
+            model=model,
+            prompt=prompt,
+            temperature=temp,
+            max_output_tokens=1024
+        )
 
-    # Get user input
-    user_message = st.text_input("Your Message:", "what's up")
+        st.write("")
+        st.header(":blue[Response]")
+        st.write("")
 
-    if st.button("Send Message"):
-        # Call the chat_with_palm function to interact with the PaLM model
-        response = chat_with_palm([user_message])
-
-        # Display the AI's response
-        st.text_area("PaLM's Response:", response)
+        st.markdown(response.result, unsafe_allow_html=False, help=None)
 
 if __name__ == "__main__":
-    display_ui()
+    main()
