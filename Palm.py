@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 import os
+import google.generativeai as palm
 from google.api_core import retry
 
 @retry.Retry()
