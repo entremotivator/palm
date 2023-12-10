@@ -7,19 +7,13 @@ import google.generativeai as palm
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
 palm.configure(api_key=API_KEY)
 
-def generate_text_with_curl(prompt):
+
+    }
+    response = requests.post 
+    def generate_text_with_curl(prompt):
     url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
     headers = {'Content-Type': 'application/json'}
     params = {'key': API_KEY}
-    data = {
-        "prompt": {
-            "text": prompt
-        }
-    }
-    response = requests.postdef (prompt):
-    url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
-    headers = {'Content-Type': 'application/json'}
-    params = {'key': API_KEY}  # Use the API key obtained from Streamlit secrets
     data = {
         "prompt": {
             "text": prompt
