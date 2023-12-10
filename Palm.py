@@ -16,7 +16,7 @@ def generate_text_with_curl(prompt):
             "text": prompt
         }
     }
-    response = requests.postdef generate_text_with_curl(prompt):
+    response = requests.postdef (prompt):
     url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
     headers = {'Content-Type': 'application/json'}
     params = {'key': API_KEY}  # Use the API key obtained from Streamlit secrets
