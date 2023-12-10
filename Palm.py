@@ -18,26 +18,27 @@ def display_ui():
     st.write("")
 
     def generate_and_display_response(prompt, model, context=""):
-    response = retry_chat(
-        model=model,
-        context=context,
-        messages=[prompt],
-    )
+        response = retry_chat(
+            model=model,
+            context=context,
+            messages=[prompt],
+        )
 
-    st.write("")
-    st.header(":blue[Response]")
-    st.write("")
+        st.write("")
+        st.header(":blue[Response]")
+        st.write("")
 
-    if response:
-        generated_text = response.last.text
-        formatted_text = format_generated_text(generated_text)
-        st.markdown(formatted_text, unsafe_allow_html=False, help=None)
+        if response:
+            generated_text = response.last.text
+            formatted_text = format_generated_text(generated_text)
+            st.markdown(formatted_text, unsafe_allow_html=False, help=None)
 
-def format_generated_text(generated_text):
-    # Add any formatting or post-processing here
-    formatted_text = generated_text.capitalize()  # Example: Capitalize the text
-    return formatted_text
+    def format_generated_text(generated_text):
+        # Add any formatting or post-processing here
+        formatted_text = generated_text.capitalize()  # Example: Capitalize the text
+        return formatted_text
 
 
 if __name__ == "__main__":
-    main()
+    display_ui()
+
