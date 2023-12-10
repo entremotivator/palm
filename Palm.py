@@ -6,6 +6,14 @@ import os
 API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
 HEADERS = {'Content-Type': 'application/json'}
 IMAGE_PATH = "./Google_PaLM_Logo.svg.webp"
+params = {'key': API_KEY}  # Use the API key obtained from Streamlit secrets
+    data = {
+        "prompt": {
+            "text": prompt
+        }
+    }
+    response = requests.post(url, headers=headers, params=params, json=data)
+    return response.json() 
 
 # Load environment variables from .env file
 
