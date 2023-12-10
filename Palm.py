@@ -2,10 +2,7 @@ import streamlit as st
 import os
 import requests  # Import the requests library for HTTP requests
 
-# Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
-
-# Configure PaLM with the API key
 palm.configure(api_key=API_KEY)
 
 def generate_text_with_curl(prompt):
