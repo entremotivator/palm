@@ -1,6 +1,8 @@
 import streamlit as st
+import streamlit as st
 from google.generativeai import configure, chat
 from google.api_core import retry
+from google.api_core.exceptions import _InactiveRpcError
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets["palm_api_key"]
@@ -10,7 +12,15 @@ configure(api_key=API_KEY)
 
 @retry.Retry()
 def retry_chat(**kwargs):
-    return chat(**kwargs)
+    try:
+        return chat(**kwargs)
+    except _InactiveRpcError as e:
+        # Handle the specific error related to insufficient authentication scopes
+        if "Request had insufficient authentication scopes." in str(e):
+            st.error("Error: Request had insufficient authentication scopes. Check your authentication credentials.")
+        else:
+            st.error(f"Error: {_InactiveRpcError}")
+        return None
 
 def display_ui():
     st.header("Chat with PaLM")
@@ -37,7 +47,9 @@ def display_ui():
             examples=examples,
             messages=messages
         )
-        chat_history.text(response.last)  # Display the response in the UI
+
+        if response is not None:
+            chat_history.text(response.last)  # Display the response in the UI
 
 if __name__ == "__main__":
     display_ui()
