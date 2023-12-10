@@ -8,6 +8,7 @@ load_dotenv()
 API_KEY=os.environ.get("PALM_API_KEY")
 palm.configure(api_key=API_KEY)
 
+
 def main():
     st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
     st.header("Chat with PaLM")
