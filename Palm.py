@@ -21,26 +21,27 @@ def display_ui():
     chat_history = []
 
     defaults = {
-  'model': 'models/chat-bison-001',
-  'temperature': 0.4,
-  'candidate_count': 1,
-  'top_k': 40,
-  'top_p': 0.95,
-}
-context = ""
-examples = []
-messages = [
-  "what's up",
-  "Hey! I'm doing well, thanks for asking. How are you doing today?"
-]
-messages.append("NEXT REQUEST")
-response = palm.chat(
-  **defaults,
-  context=context,
-  examples=examples,
-  messages=messages
-)
-print(response.last) # Response of the AI to your most recent request
+        'model': 'models/chat-bison-001',
+        'temperature': 0.4,
+        'candidate_count': 1,
+        'top_k': 40,
+        'top_p': 0.95,
+    }
+    context = ""
+    examples = []
+    messages = [
+        "what's up",
+        "Hey! I'm doing well, thanks for asking. How are you doing today?"
+    ]
+    messages.append("NEXT REQUEST")
+    response = palm.chat(
+        **defaults,
+        context=context,
+        examples=examples,
+        messages=messages
+    )
+    print(response.last)  # Response of the AI to your most recent request
+
 
 if __name__ == "__main__":
     display_ui()
