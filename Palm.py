@@ -4,7 +4,32 @@ from google.api_core import retry
 import json
 import toml
 
+# Load secrets from the file using st.secrets
+secrets = st.secrets["google_cloud_credentials"]
 
+# Access individual secrets
+project_id = secrets["credentials"]["project_id"]
+private_key_id = secrets["credentials"]["private_key_id"]
+private_key = secrets["credentials"]["private_key"]
+client_email = secrets["credentials"]["client"]["email"]
+client_id = secrets["credentials"]["client"]["id"]
+auth_uri = secrets["credentials"]["auth"]["uri"]
+token_uri = secrets["credentials"]["auth"]["token_uri"]
+auth_provider_x509_cert_url = secrets["credentials"]["auth"]["provider_x509_cert_url"]
+client_x509_cert_url = secrets["credentials"]["client_x509_cert"]["url"]
+universe_domain = secrets["metadata"]["universe_domain"]
+
+# Streamlit app content
+st.title("Google Cloud Service Account Secrets Example")
+st.write(f"Project ID: {project_id}")
+st.write(f"Private Key ID: {private_key_id}")
+st.write(f"Client Email: {client_email}")
+st.write(f"Client ID: {client_id}")
+st.write(f"Auth URI: {auth_uri}")
+st.write(f"Token URI: {token_uri}")
+st.write(f"Auth Provider X.509 Cert URL: {auth_provider_x509_cert_url}")
+st.write(f"Client X.509 Cert URL: {client_x509_cert_url}")
+st.write(f"Universe Domain: {universe_domain}")
 
 # Constants
 API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
