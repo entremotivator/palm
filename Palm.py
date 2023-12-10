@@ -16,7 +16,7 @@ def display_ui():
     st.header("Chat with PaLM")
 
     # Chat box and history
-    chat_history = []
+    chat_history = st.empty()
 
     defaults = {
         'model': 'models/chat-bison-001',
@@ -27,18 +27,17 @@ def display_ui():
     }
     context = ""
     examples = []
-    messages = [
-        "what's up",
-        "Hey! I'm doing well, thanks for asking. How are you doing today?"
-    ]
-    messages.append("NEXT REQUEST")
-    response = retry_chat(
-        **defaults,
-        context=context,
-        examples=examples,
-        messages=messages
-    )
-    print(response.last)  # Response of the AI to your most recent request
+    messages = st.text_area("Your Message:", ["what's up"])
+
+    if st.button("Send Message"):
+        messages.append("NEXT REQUEST")
+        response = retry_chat(
+            **defaults,
+            context=context,
+            examples=examples,
+            messages=messages
+        )
+        chat_history.text(response.last)  # Display the response in the UI
 
 if __name__ == "__main__":
     display_ui()
