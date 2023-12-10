@@ -3,8 +3,6 @@ import google.generativeai as palm
 from dotenv import load_dotenv
 import os
 
-# Load environment variables from .env file
-load_dotenv()
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
