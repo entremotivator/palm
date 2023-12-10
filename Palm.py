@@ -1,6 +1,15 @@
 import streamlit as st
 import requests
 import os
+from google.api_core import retry
+
+@retry.Retry()
+def retry_chat(**kwargs):
+  return palm.chat(**kwargs)
+
+@retry.Retry()
+def retry_reply(self, arg):
+  return self.reply(arg)
 
 # Constants
 API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
