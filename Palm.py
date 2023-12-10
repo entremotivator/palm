@@ -37,7 +37,8 @@ def main():
         st.header(":blue[Response]")
         st.write("")
 
-        st.markdown(response.get("text", ""), unsafe_allow_html=False, help=None)
+        generated_text = response.get("text", "")
+        st.markdown(generated_text, unsafe_allow_html=False, help=None)
 
 if __name__ == "__main__":
     main()
