@@ -18,11 +18,11 @@ params = {'key': API_KEY}  # Use the API key obtained from Streamlit secrets
 # Load environment variables from .env file
 
 # Retrieve PaLM API key from environment variables or st.secrets
-API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
+API_KEY = st.secrets.get("palm_api_key") 
 
 def configure_palm():
     import google.generativeai as palm
-    palm.configure(api_key=API_KEY)
+    palm.configure(api_key=palm_api_key)
 
 def generate_text_with_palm(prompt):
     try:
