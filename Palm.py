@@ -10,8 +10,6 @@ API_ENDPOINT = "https://generativelanguage.googleapis.com/v1beta3/models/text-bi
 HEADERS = {'Content-Type': 'application/json'}
 IMAGE_PATH = "./Google_PaLM_Logo.svg.webp"
 
-# Load secrets from the file using st.secrets
-secrets = st.secrets["google_cloud_credentials"]
 
 # Access individual secrets
 project_id = secrets["credentials"]["project_id"]
