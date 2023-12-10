@@ -1,5 +1,11 @@
 import streamlit as st
 import google.generativeai as palm
+import streamlit as st
+import google.generativeai as palm
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Load API key from Streamlit secrets
 API_KEY = st.secrets["palm_api_key"]
