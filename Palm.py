@@ -1,3 +1,16 @@
+import streamlit as st
+from google.generativeai import palm  # Add this line
+import subprocess
+import json
+import os
+
+# Retrieve PaLM API key from Streamlit secrets
+API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
+palm.configure(api_key=API_KEY)
+
+# Store PaLM API key for curl command in Streamlit secrets
+st.secrets["curl_command_key"] = API_KEY
+
 def run_curl_command(prompt):
     curl_command = [
         "curl",
