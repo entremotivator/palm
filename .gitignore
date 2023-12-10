@@ -1,2 +1,3 @@
 # Ignore TOML files
 *.toml
+*st_secrets.toml
