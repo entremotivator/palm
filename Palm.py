@@ -10,7 +10,6 @@ def run_curl_command(prompt):
     return result.stdout
 
 def main():
-    st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
     st.header("Chat with PaLM")
     st.write("")
 
