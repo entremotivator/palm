@@ -1,10 +1,10 @@
 import streamlit as st
-import google.generativeai as palm
-import requests
 import os
 from dotenv import load_dotenv
+import google.generativeai as palm
 
 # Load environment variables from .env file
+load_dotenv()
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
@@ -13,14 +13,14 @@ palm.configure(api_key=API_KEY)
 def generate_text_with_curl(prompt):
     url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
     headers = {'Content-Type': 'application/json'}
-    params = {'key': API_KEY}  # Use the API key obtained from Streamlit secrets
+    params = {'key': API_KEY}
     data = {
         "prompt": {
             "text": prompt
         }
     }
     response = requests.post(url, headers=headers, params=params, json=data)
-    return response.json() 
+    return response.json()
 
 def main():
     st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
@@ -40,6 +40,12 @@ def main():
 
         generated_text = response.get("text", "")
         st.markdown(generated_text, unsafe_allow_html=False, help=None)
+
+    # Display model information
+    st.write("")
+    st.header("Model Information")
+    model_info = get_model_info()
+    st.write(model_info)
 
 if __name__ == "__main__":
     main()
