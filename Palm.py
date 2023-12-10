@@ -5,10 +5,7 @@ import os
 
 load_dotenv()
 
-st.write(
-    "Has environment variables been set:",
-    os.environ["API_KEY"] == st.secrets["PALM_API_KEY"],
-)
+API_KEY=os.environ.get("PALM_API_KEY")
 palm.configure(api_key=API_KEY)
 
 def main():
