@@ -1,18 +1,16 @@
 import streamlit as st
-import google.generativeai as palm
+from google.generativeai import configure, chat
 from google.api_core import retry
-import json
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key")
 
-def configure_palm():
-    # Import and configuration of google.generativeai should be done here
-    palm.configure(api_key=API_KEY)
+# Import and configure google.generativeai
+configure(api_key=API_KEY)
 
 @retry.Retry()
 def retry_chat(**kwargs):
-    return palm.chat(**kwargs)
+    return chat(**kwargs)
 
 def generate_and_display_response(prompt, model, context=""):
     response = retry_chat(
@@ -56,7 +54,6 @@ def display_ui():
             st.error("No PaLM models found. Please check your credentials and try again.")
 
 def main():
-    configure_palm()
     display_ui()
 
 if __name__ == "__main__":
