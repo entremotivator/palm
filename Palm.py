@@ -1,6 +1,7 @@
 import streamlit as st
 from google.generativeai import configure, chat
 from google.api_core import retry
+import google.generativeai as palm
 
 # Retrieve PaLM API key from environment variables or st.secrets
 API_KEY = st.secrets.get("palm_api_key")
