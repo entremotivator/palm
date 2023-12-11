@@ -1,16 +1,13 @@
 import streamlit as st
-import google.generativeai as palm
-import requests
-import os
-import vertexai
+from vertexai import init
 from vertexai.preview.language_models import ChatModel
 
 def doChat():
 
     # initialize vertexai
-    # projectname = "my-project"
-    # location = "us-central1"
-    vertexai.init(project="your-project-name", location="your-project-location")
+    project_name = "your-project-name"
+    location = "your-project-location"
+    init(project=project_name, location=location)
 
     # load model
     chat_model = ChatModel.from_pretrained("chat-bison@001")
@@ -30,6 +27,10 @@ def doChat():
     response = chat.send_message("hi", **parameters) # user says "hi"
     
     return response
+
+# Invoke doChat() 
+print(doChat()) # bot replies "Hi there! How can I help you today?"
+
 
 # Invoke doChat() 
 print(doChat()) # bot replies "Hi there! How can I help you today?" 
