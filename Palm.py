@@ -1,36 +1,43 @@
 import streamlit as st
-from vertexai import init
-from vertexai.preview.language_models import ChatModel
+import google.generativeai as palm
+import requests
+import os
 
-def doChat():
+# Load environment variables from .env file
 
-    # initialize vertexai
-    project_name = "your-project-name"
-    location = "your-project-location"
-    init(project=project_name, location=location)
+# Retrieve PaLM API key from environment variables or st.secrets
+API_KEY = st.secrets.get("palm_api_key") or os.environ.get("PALM_API_KEY")
+palm.configure(api_key=API_KEY)
 
-    # load model
-    chat_model = ChatModel.from_pretrained("chat-bison@001")
-
-    # define model parameters
-    parameters = {
-        "temperature": 0.2,
-        "max_output_tokens": 256,
-        "top_p": 0.8,
-        "top_k": 40,
+def generate_text_with_curl(prompt):
+    url = "https://generativelanguage.googleapis.com/v1beta3/models/text-bison-001:generateText"
+    headers = {'Content-Type': 'application/json'}
+    params = {'key': API_KEY}
+    data = {
+        "prompt": {
+            "text": prompt
+        }
     }
+    response = requests.post(url, headers=headers, params=params, json=data)
+    return response.json()
 
-    # starts a chat session with the model
-    chat = chat_model.start_chat()
+def main():
+    st.image("./Google_PaLM_Logo.svg.webp", use_column_width=False, width=100)
+    st.header("Chat with PaLM")
+    st.write("")
 
-    # sends message to the language model and gets a response
-    response = chat.send_message("hi", **parameters) # user says "hi"
-    
-    return response
+    prompt = st.text_input("Prompt please...", placeholder="Prompt", label_visibility="visible")
+    temp = st.slider("Temperature", 0.0, 1.0, step=0.05)    # Hyper parameter - range[0-1]
 
-# Invoke doChat() 
-print(doChat()) # bot replies "Hi there! How can I help you today?"
+    if st.button("SEND", use_container_width=True):
+        # Use the cURL-like request
+        response = generate_text_with_curl(prompt)
 
+        st.write("")
+        st.header(":blue[Response]")
+        st.write("")
 
-# Invoke doChat() 
-print(doChat()) # bot replies "Hi there! How can I help you today?" 
+        st.markdown(response.get("text", ""), unsafe_allow_html=False, help=None)
+
+if __name__ == "__main__":
+    main()
